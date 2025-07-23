@@ -40,7 +40,7 @@ def resolve(value):
         raise ValueError(f"Unknown resolve instruction: {match.group(1)}")
 
     return re.sub(pattern, ersetze_match, value)
- 
+
 
 class ProcessPipelineBuilder:
     def __init__(self, g: Graph):
