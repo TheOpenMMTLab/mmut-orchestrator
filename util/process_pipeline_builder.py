@@ -69,6 +69,8 @@ class ProcessPipelineBuilder:
 
         print("Reihenfolge der Prozess-Schritte mit Abhängigkeiten:\n")
         for step in sorted_processes:
+            print(f"Prozess {step}.")
+
             predecessors = list(self.G.predecessors(step))
             dependencies = None
             if predecessors:

@@ -15,6 +15,8 @@ def docker_flow(mmut_id : str):
         wait_for = []
         if process.dependencies:
             for dep in process.dependencies:
+                if dep not in tasks:
+                    raise ValueError(f"Dependency {dep} not found in {tasks.keys()}.")
                 wait_for.append(tasks[dep])
 
         tasks[process.id] = docker_task.with_options(name=process.name).submit({
