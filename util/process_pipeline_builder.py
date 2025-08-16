@@ -1,9 +1,13 @@
 import re
+from typing import List
 from rdflib import Graph, RDFS
 from obse.sparql_queries import SparQLWrapper
 from py_mmut_rdf import MMUT
 import networkx as nx
 import yaml
+import logging
+
+logger = logging.getLogger(__name__)
 
 
 class Process:
@@ -63,13 +67,14 @@ class ProcessPipelineBuilder:
             for input_model in self.sparql_wrapper.get_in_references(transformation, MMUT.isInputModelOf):
                 self.G.add_edge(input_model, transformation)
 
-    def __iter__(self):
+    def get_processes(self) -> List[Process]:
+        processes = []
         # Topologische Sortierung der Prozesse (Reihenfolge der Abarbeitung)
         sorted_processes = list(nx.topological_sort(self.G))
 
-        print("Reihenfolge der Prozess-Schritte mit Abhängigkeiten:\n")
+        logger.info(f"Reihenfolge der {len(sorted_processes)} Prozess-Schritte mit Abhängigkeiten.")
         for step in sorted_processes:
-            print(f"Prozess {step}.")
+            logger.info(f"Prozess {step}.")
 
             predecessors = list(self.G.predecessors(step))
             dependencies = None
@@ -79,7 +84,7 @@ class ProcessPipelineBuilder:
             p_task_definitions = self.sparql_wrapper.get_out_references(step, MMUT.hasTaskDefinition)
 
             if len(p_task_definitions) == 0:
-                print(f"Prozess {step} hat keine Task-Definition.")
+                logger.error(f"Prozess {step} hat keine Task-Definition.")
                 continue
 
             assert len(p_task_definitions) == 1, f"Prozess {step} hat mehrere Task-Definitionen."
@@ -97,14 +102,16 @@ class ProcessPipelineBuilder:
                 value = self.sparql_wrapper.get_single_object_property(p_key_value, MMUT.value)
                 env[key] = resolve(value)
 
-            yield Process(
-                id=str(step),
-                name=self.sparql_wrapper.get_single_object_property(p_task_definitions[0], RDFS.label),
+            process_id = str(step)
+            process_name = self.sparql_wrapper.get_single_object_property(p_task_definitions[0], RDFS.label)
+
+            processes.append(Process(
+                id=process_id,
+                name=process_name,
                 image=image,
                 command=command,
                 env=env,
                 dependencies=dependencies
-            )
+            ))
 
-
-            
+        return processes

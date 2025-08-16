@@ -1,9 +1,11 @@
 import os
+import logging
 from rdflib import Graph
 import importlib.resources
 from .process_pipeline_builder import ProcessPipelineBuilder
 
 
+logger = logging.getLogger(__name__)
 
 
 def get_processes(mmut_path: str) -> ProcessPipelineBuilder:
@@ -14,14 +16,14 @@ def get_processes(mmut_path: str) -> ProcessPipelineBuilder:
     # Datei im Turtle-Format einlesen
     with importlib.resources.files('py_mmut_rdf').joinpath('mmut.ttl').open('r', encoding='UTF-8') as f:
         ttl_data = f.read()
-        print("Parsing Turtle data...")
+        logger.info("Parsing Turtle data...")
         g.parse(data=ttl_data, format="turtle")
 
     for file in os.listdir(mmut_path):
 
         if file.endswith('.ttl'):
-            print(f"Parsing Turtle file: {file}")
+            logger.info(f"Parsing Turtle file: {file}")
             ttl_file = os.path.join(mmut_path, file)
             g.parse(ttl_file, format="turtle")
 
-    return ProcessPipelineBuilder(g)
+    return ProcessPipelineBuilder(g).get_processes()

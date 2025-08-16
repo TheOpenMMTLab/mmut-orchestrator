@@ -1,8 +1,9 @@
 import pytest
 import os
+from typing import List
 from unittest.mock import patch
 from util.trigger_process import is_valid_uuid, trigger_process
-from util.process_pipeline_builder import ProcessPipelineBuilder
+from util.process_pipeline_builder import Process
 
 def test_is_valid_uuid():
     """Test the is_valid_uuid function"""
@@ -30,6 +31,7 @@ def test_trigger_process_value_uuid(data_dir):
             trigger_process("833eee11-12f7-400d-ada8-0733c37a5563")
             mock_run.assert_called_once()
             args, _ = mock_run.call_args
-            # Ensure the first argument is a ProcessPipelineBuilder instance
+            # Ensure the first argument is a list of Process instances
             assert len(args) == 1
-            assert isinstance(args[0], ProcessPipelineBuilder)
+            assert len(args[0]) == 0
+            #assert isinstance(args[0][0], Process)

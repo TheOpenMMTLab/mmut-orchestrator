@@ -1,7 +1,11 @@
-fastapi>=0.100.0
-uvicorn>=0.23.0
-prefect>=2.0.0
-docker>=6.0.0
-rdflib>=6.0.0
+docker_py==1.10.6
+fastapi==0.116.1
+networkx==3.1
+prefect==3.4.13
+pytest==8.2.1
 pyyaml>=6.0.0
+rdflib==7.1.4
+uvicorn==0.35.0
 pytest>=8.0.0
+git+https://github.com/dfriedenberger/obse.git
+git+https://github.com/dfriedenberger/mmut-rdf-model.git
