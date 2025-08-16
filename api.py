@@ -8,7 +8,7 @@ from datetime import datetime
 from typing import Dict, Any
 import logging
 
-from util.trigger_process import trigger_process
+from util.trigger_process import trigger_process, get_mmut_dir, is_valid_uuid
 
 # Configure logging
 logging.basicConfig(level=logging.INFO)
