@@ -2,7 +2,7 @@ import time
 from docker import DockerClient
 from prefect import task, get_run_logger
 from prefect.states import Failed
-
+from .helper import get_shared
 
 @task
 def docker_task(params: str):
@@ -19,7 +19,7 @@ def docker_task(params: str):
         command=params['command'],
         auto_remove=False,  # Nicht automatisch entfernen, damit wir Logs sehen können
         volumes={
-            'D:/Stuff/git/HPI/MicroModelsAndTransformations/orchestrator-poc/models': {
+            get_shared("models"): {
                 'bind': '/share/models',
                 'mode': 'rw'  # oder 'ro' für read-only
             }
