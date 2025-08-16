@@ -8,13 +8,7 @@ def to_valid_container_name(name: str) -> str:
     return re.sub(r'[^a-zA-Z0-9_.-]', '-', name).lower()
 
 
-def get_mmut_dir():
-    """List all MMUT files in the current directory."""
-    # Ordner, in dem sich die aktuelle Datei befindet
-    util_dir = os.path.dirname(os.path.abspath(__file__))
 
-    # Auflösung des relativen Pfads zu einem absoluten Pfad
-    return os.path.abspath(os.path.join(util_dir, '../mmut'))
 
 
 def get_shared(key : str):
@@ -26,9 +20,5 @@ def get_shared(key : str):
         config = yaml.safe_load(file)
     return config.get(key, None)
 
-def is_valid_uuid(val, version=4):
-    try:
-        uuid_obj = uuid.UUID(val, version=version)
-    except ValueError:
-        return False
-    return str(uuid_obj) == val.lower()
+
+

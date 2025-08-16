@@ -1,17 +1,18 @@
 from prefect import flow, get_run_logger
 from .helper import to_valid_container_name
 from .docker_task import docker_task
-from .processes import get_processes
+from .processes import ProcessPipelineBuilder
 
 
-@flow(name="mmut")
-def docker_flow(mmut_id : str):
+@flow(name="micro-model-and-transformation")
+def docker_flow(pipeline: ProcessPipelineBuilder):
+    
     logger = get_run_logger()
     logger.info("Starte den Flow...")
 
     tasks = {}
 
-    for process in get_processes(mmut_id):
+    for process in pipeline:
         wait_for = []
         if process.dependencies:
             for dep in process.dependencies:
