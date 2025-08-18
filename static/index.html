@@ -281,12 +281,14 @@
                     method: 'GET'
                 });
                 
+                const data = await response.json().catch(() => null); // Falls kein JSON zurückkommt
+
                 if (!response.ok) {
-                    throw new Error(`HTTP ${response.status}: ${response.statusText}`);
+                    const message = data?.message || response.statusText || "Unbekannter Fehler";
+                    throw new Error(`HTTP ${response.status}: ${message}`);
                 }
                 
-                const data = await response.json();
-                showSuccess(`Flow "${dagName}" wurde erfolgreich gestartet!`);
+                showSuccess(data.message);
                 
                 // Simulate completion after 5 seconds (in real scenario, you'd poll for status)
                 setTimeout(() => {
@@ -295,7 +297,7 @@
                 
             } catch (error) {
                 console.error('Error triggering flow:', error);
-                showError(`Fehler beim Starten des Flows: ${error.message}`);
+                showError(error.message);
                 updateButtonStatus(dagId, 'failed', false);
             }
         }
