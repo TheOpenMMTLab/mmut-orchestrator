@@ -23,7 +23,7 @@ def test_trigger_process_random_uuid():
         trigger_process("44f138a6-5c58-4b62-8770-ac5f4739ac44")
 
 
-def test_trigger_process_valid_uuid(data_dir):
+def test_trigger_process_valid(data_dir):
 
     with patch("util.trigger_process.get_mmut_dir", return_value=data_dir / "mmut"):
         with patch("util.trigger_process.run_docker_flow_sync", return_value=None) as mock_run:
@@ -33,7 +33,30 @@ def test_trigger_process_valid_uuid(data_dir):
             # Ensure the first argument is a list of Process instances
             assert len(args) == 1
             assert len(args[0]) == 3
-            assert isinstance(args[0][0], Process)
+            # Test EVA (Eingabe, Verarbeitung, Ausgabe)
+            assert args[0][0].id ==  "https://frittenburger.de/2022/11/EULYNX#SysMLMicroModel-SysML"
+            assert args[0][1].id ==  "https://frittenburger.de/2022/11/EULYNX#PythonScriptTransformation-a"
+            assert args[0][2].id ==  "https://frittenburger.de/2022/11/EULYNX#RDFMicroModel-rdf"
+
+def test_trigger_process_valid_complex(data_dir):
+
+    with patch("util.trigger_process.get_mmut_dir", return_value=data_dir / "mmut"):
+        with patch("util.trigger_process.run_docker_flow_sync", return_value=None) as mock_run:
+            trigger_process("8014cf0a-8d29-4cdb-9563-6b0e9fcf4b8f")
+            mock_run.assert_called_once()
+            args, _ = mock_run.call_args
+            # Ensure the first argument is a list of Process instances
+            assert len(args) == 1
+            assert len(args[0]) == 7
+            # Test EVA (Eingabe, Verarbeitung, Ausgabe)
+            assert args[0][0].id ==  "https://frittenburger.de/2022/11/EULYNX#SysMLMicroModel-Model-A2"
+            assert args[0][1].id ==  "https://frittenburger.de/2022/11/EULYNX#SysMLMicroModel-Model-A3"
+            assert args[0][2].id ==  "https://frittenburger.de/2022/11/EULYNX#PythonScriptTransformation-a"
+            assert args[0][3].id ==  "https://frittenburger.de/2022/11/EULYNX#PythonScriptTransformation-c"
+            assert args[0][4].id ==  "https://frittenburger.de/2022/11/EULYNX#RDFMicroModel-Model-A1"
+            assert args[0][5].id ==  "https://frittenburger.de/2022/11/EULYNX#PythonScriptTransformation-b"
+            assert args[0][6].id ==  "https://frittenburger.de/2022/11/EULYNX#RDFMicroModel-Output-Model"
+
 
 def test_trigger_process_no_process(data_dir):
 
