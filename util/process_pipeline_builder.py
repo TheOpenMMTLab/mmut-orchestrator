@@ -68,9 +68,14 @@ class ProcessPipelineBuilder:
                 self.G.add_edge(input_model, transformation)
 
     def get_processes(self) -> List[Process]:
+        errors = []
         processes = []
         # Topologische Sortierung der Prozesse (Reihenfolge der Abarbeitung)
-        sorted_processes = list(nx.topological_sort(self.G))
+        try:
+            sorted_processes = list(nx.topological_sort(self.G))
+        except nx.exception.NetworkXUnfeasible as e:
+            logger.error("Die Prozesse haben Zyklen und können nicht sortiert werden.")
+            raise ValueError("Die Prozesse haben Zyklen und können nicht sortiert werden.") from e
 
         logger.info(f"Reihenfolge der {len(sorted_processes)} Prozess-Schritte mit Abhängigkeiten.")
         for step in sorted_processes:
@@ -84,7 +89,7 @@ class ProcessPipelineBuilder:
             p_task_definitions = self.sparql_wrapper.get_out_references(step, MMUT.hasTaskDefinition)
 
             if len(p_task_definitions) == 0:
-                logger.error(f"Prozess {step} hat keine Task-Definition.")
+                errors.append(f"Prozess {step} hat keine Task-Definition.")
                 continue
 
             assert len(p_task_definitions) == 1, f"Prozess {step} hat mehrere Task-Definitionen."
@@ -113,5 +118,11 @@ class ProcessPipelineBuilder:
                 env=env,
                 dependencies=dependencies
             ))
+
+        if errors:
+            logger.error("Folgende Fehler sind aufgetreten:")
+            for error in errors:
+                logger.error(f" - {error}")
+            raise ValueError("Prozess-Definitionen konnten nicht erstellt werden.")
 
         return processes

@@ -23,8 +23,7 @@ def test_trigger_process_random_uuid():
         trigger_process("44f138a6-5c58-4b62-8770-ac5f4739ac44")
 
 
-
-def test_trigger_process_value_uuid(data_dir):
+def test_trigger_process_valid_uuid(data_dir):
 
     with patch("util.trigger_process.get_mmut_dir", return_value=data_dir / "mmut"):
         with patch("util.trigger_process.run_docker_flow_sync", return_value=None) as mock_run:
@@ -33,5 +32,23 @@ def test_trigger_process_value_uuid(data_dir):
             args, _ = mock_run.call_args
             # Ensure the first argument is a list of Process instances
             assert len(args) == 1
-            assert len(args[0]) == 0
-            #assert isinstance(args[0][0], Process)
+            assert len(args[0]) == 3
+            assert isinstance(args[0][0], Process)
+
+def test_trigger_process_no_process(data_dir):
+
+    with patch("util.trigger_process.get_mmut_dir", return_value=data_dir / "mmut"):
+        with patch("util.trigger_process.run_docker_flow_sync", return_value=None) as mock_run:
+            with pytest.raises(ValueError):
+                trigger_process("fed76341-fc1e-4669-b221-1d16156c7d53")
+            mock_run.assert_not_called()
+
+def test_trigger_process_loop(data_dir):
+
+    with patch("util.trigger_process.get_mmut_dir", return_value=data_dir / "mmut"):
+        with patch("util.trigger_process.run_docker_flow_sync", return_value=None) as mock_run:
+            with pytest.raises(ValueError):
+                trigger_process("25350c66-f832-4c8d-b1cf-5b49e890806d")
+            mock_run.assert_not_called()
+          
+            

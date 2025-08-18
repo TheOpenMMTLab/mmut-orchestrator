@@ -1,0 +1,89 @@
+@prefix MMUT: <http://frittenburger.de/ontology/mmut#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+<https://frittenburger.de/2022/11/EULYNX#ContainerProperties-Container-properties-for-Dummy-Load-SysML> a MMUT:ContainerProperties ;
+    rdfs:label "Container properties for Dummy Load SysML"^^xsd:string ;
+    MMUT:hasCommandSequence [ a rdf:Seq ;
+            rdf:_1 "echo"^^xsd:string ;
+            rdf:_2 "load SysML"^^xsd:string ] ;
+    MMUT:hasEnvironment <https://frittenburger.de/2022/11/EULYNX#Environment-Environment-for-Dummy-Load-SysML> ;
+    MMUT:image "simple-mut"^^xsd:string .
+
+<https://frittenburger.de/2022/11/EULYNX#ContainerProperties-Container-properties-for-Dummy-Load-rdf> a MMUT:ContainerProperties ;
+    rdfs:label "Container properties for Dummy Load rdf"^^xsd:string ;
+    MMUT:hasCommandSequence [ a rdf:Seq ;
+            rdf:_1 "echo"^^xsd:string ;
+            rdf:_2 "load rdf"^^xsd:string ] ;
+    MMUT:hasEnvironment <https://frittenburger.de/2022/11/EULYNX#Environment-Environment-for-Dummy-Load-rdf> ;
+    MMUT:image "simple-mut"^^xsd:string .
+
+<https://frittenburger.de/2022/11/EULYNX#ContainerProperties-Container-properties-for-Dummy-Transform-a> a MMUT:ContainerProperties ;
+    rdfs:label "Container properties for Dummy Transform a"^^xsd:string ;
+    MMUT:hasCommandSequence [ a rdf:Seq ;
+            rdf:_1 "echo"^^xsd:string ;
+            rdf:_2 "transform a"^^xsd:string ] ;
+    MMUT:hasEnvironment <https://frittenburger.de/2022/11/EULYNX#Environment-Environment-for-Dummy-Transform-a> ;
+    MMUT:image "simple-mut"^^xsd:string .
+
+<https://frittenburger.de/2022/11/EULYNX#ContainerProperties-Container-properties-for-Dummy-Transform-b> a MMUT:ContainerProperties ;
+    rdfs:label "Container properties for Dummy Transform b"^^xsd:string ;
+    MMUT:hasCommandSequence [ a rdf:Seq ;
+            rdf:_1 "echo"^^xsd:string ;
+            rdf:_2 "transform b"^^xsd:string ] ;
+    MMUT:hasEnvironment <https://frittenburger.de/2022/11/EULYNX#Environment-Environment-for-Dummy-Transform-b> ;
+    MMUT:image "simple-mut"^^xsd:string .
+
+<https://frittenburger.de/2022/11/EULYNX#Environment-Environment-for-Dummy-Load-SysML> a MMUT:Environment ;
+    rdfs:label "Environment for Dummy Load SysML"^^xsd:string .
+
+<https://frittenburger.de/2022/11/EULYNX#Environment-Environment-for-Dummy-Load-rdf> a MMUT:Environment ;
+    rdfs:label "Environment for Dummy Load rdf"^^xsd:string .
+
+<https://frittenburger.de/2022/11/EULYNX#Environment-Environment-for-Dummy-Transform-a> a MMUT:Environment ;
+    rdfs:label "Environment for Dummy Transform a"^^xsd:string .
+
+<https://frittenburger.de/2022/11/EULYNX#Environment-Environment-for-Dummy-Transform-b> a MMUT:Environment ;
+    rdfs:label "Environment for Dummy Transform b"^^xsd:string .
+
+<https://frittenburger.de/2022/11/EULYNX#PythonScriptTransformation-a> a MMUT:PythonScriptTransformation ;
+    rdfs:label "a"^^xsd:string ;
+    MMUT:hasOutputModel <https://frittenburger.de/2022/11/EULYNX#RDFMicroModel-rdf> ;
+    MMUT:hasTaskDefinition <https://frittenburger.de/2022/11/EULYNX#TaskDefinition-Dummy-Transform-a> ;
+    rdfs:comment "Create SysML to RDF Transformation"^^xsd:string .
+
+<https://frittenburger.de/2022/11/EULYNX#PythonScriptTransformation-b> a MMUT:PythonScriptTransformation ;
+    rdfs:label "b"^^xsd:string ;
+    MMUT:hasOutputModel <https://frittenburger.de/2022/11/EULYNX#SysMLMicroModel-SysML> ;
+    MMUT:hasTaskDefinition <https://frittenburger.de/2022/11/EULYNX#TaskDefinition-Dummy-Transform-b> ;
+    rdfs:comment "Create RDF to SysML Transformation"^^xsd:string .
+
+<https://frittenburger.de/2022/11/EULYNX#RDFMicroModel-rdf> a MMUT:RDFMicroModel ;
+    rdfs:label "rdf"^^xsd:string ;
+    MMUT:hasTaskDefinition <https://frittenburger.de/2022/11/EULYNX#TaskDefinition-Dummy-Load-rdf> ;
+    MMUT:isInputModelOf <https://frittenburger.de/2022/11/EULYNX#PythonScriptTransformation-b> ;
+    rdfs:comment "RDF System Model"^^xsd:string .
+
+<https://frittenburger.de/2022/11/EULYNX#SysMLMicroModel-SysML> a MMUT:SysMLMicroModel ;
+    rdfs:label "SysML"^^xsd:string ;
+    MMUT:hasTaskDefinition <https://frittenburger.de/2022/11/EULYNX#TaskDefinition-Dummy-Load-SysML> ;
+    MMUT:isInputModelOf <https://frittenburger.de/2022/11/EULYNX#PythonScriptTransformation-a> ;
+    rdfs:comment "SysML Papyrus Model"^^xsd:string .
+
+<https://frittenburger.de/2022/11/EULYNX#TaskDefinition-Dummy-Load-SysML> a MMUT:TaskDefinition ;
+    rdfs:label "Dummy Load SysML"^^xsd:string ;
+    MMUT:hasContainerProperties <https://frittenburger.de/2022/11/EULYNX#ContainerProperties-Container-properties-for-Dummy-Load-SysML> .
+
+<https://frittenburger.de/2022/11/EULYNX#TaskDefinition-Dummy-Load-rdf> a MMUT:TaskDefinition ;
+    rdfs:label "Dummy Load rdf"^^xsd:string ;
+    MMUT:hasContainerProperties <https://frittenburger.de/2022/11/EULYNX#ContainerProperties-Container-properties-for-Dummy-Load-rdf> .
+
+<https://frittenburger.de/2022/11/EULYNX#TaskDefinition-Dummy-Transform-a> a MMUT:TaskDefinition ;
+    rdfs:label "Dummy Transform a"^^xsd:string ;
+    MMUT:hasContainerProperties <https://frittenburger.de/2022/11/EULYNX#ContainerProperties-Container-properties-for-Dummy-Transform-a> .
+
+<https://frittenburger.de/2022/11/EULYNX#TaskDefinition-Dummy-Transform-b> a MMUT:TaskDefinition ;
+    rdfs:label "Dummy Transform b"^^xsd:string ;
+    MMUT:hasContainerProperties <https://frittenburger.de/2022/11/EULYNX#ContainerProperties-Container-properties-for-Dummy-Transform-b> .
+
