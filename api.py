@@ -8,7 +8,7 @@ from datetime import datetime
 from typing import Dict, Any
 import logging
 
-from util.trigger_process import trigger_process, get_mmut_dir, is_valid_uuid
+from util.trigger_process import trigger_process, get_mmut_dir, is_valid_uuid, read_info_json
 
 # Configure logging
 logging.basicConfig(level=logging.INFO)
@@ -56,15 +56,7 @@ async def list_mmut_dags():
         id = str(f)
         if is_valid_uuid(id):
 
-            info_json = os.path.join(get_mmut_dir(), id, 'info.json')
-            if os.path.exists(info_json):
-                with open(info_json, 'r') as f:
-                    info = json.load(f)
-                    # Assuming info contains a JSON string with a 'name' field
-                    # You can parse it if needed
-                    # For now, we just use the id as the name
-            else:
-                info = {}
+            info = read_info_json(id)
 
             dags.append({
                 "id": id,

@@ -4,10 +4,13 @@ from prefect import task, get_run_logger
 from prefect.states import Failed
 from .helper import get_shared
 
+
 @task
 def docker_task(params: str):
     logger = get_run_logger()
     logger.info(f"Starte Container {params['name']} ...")
+    logger.info(f"Image {params['image']}")
+    logger.info(f"Command {params['command']}")
 
     # Container starten
     client = DockerClient()

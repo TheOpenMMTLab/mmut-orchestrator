@@ -5,7 +5,7 @@ from .docker_task import docker_task
 from .process_pipeline_builder import Process
 
 
-@flow(name="micro-model-and-transformation")
+@flow
 def docker_flow(processes: List[Process]):
 
     logger = get_run_logger()
@@ -34,3 +34,8 @@ def docker_flow(processes: List[Process]):
         task_x.result()
 
     logger.info("Flow abgeschlossen.")
+
+
+def run_docker_flow(processes, flow_name: str):
+    flow = docker_flow.with_options(name=flow_name)
+    flow(processes)

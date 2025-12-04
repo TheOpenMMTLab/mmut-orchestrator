@@ -8,9 +8,6 @@ def to_valid_container_name(name: str) -> str:
     return re.sub(r'[^a-zA-Z0-9_.-]', '-', name).lower()
 
 
-
-
-
 def get_shared(key : str):
     """Get a shared configuration value."""
     util_dir = os.path.dirname(os.path.abspath(__file__))
