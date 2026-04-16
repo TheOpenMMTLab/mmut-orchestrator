@@ -12,19 +12,20 @@ The orchestrator manages transformation processes for micro models based on proc
 
 ## Getting Started
 
-1. Start the dev container
-2. Manually start both applications (see below)
+## Installation
 
-## Starting the Applications
+Build and start the services with Docker Compose:
 
-Start Prefect server:
 ```bash
-prefect server start
+docker compose up --build
 ```
 
-Start API server:
+The compose setup builds dedicated images for the API and Prefect services. Runtime data folders (`config`, `mmut`, `shared`) are mounted into the API container, and the Docker socket is mounted so the orchestrator can start transformation containers.
+
+Stop services:
+
 ```bash
-uvicorn api:app --host 0.0.0.0 --port 8002 --reload
+docker compose down
 ```
 
 ## Access
@@ -38,10 +39,51 @@ uvicorn api:app --host 0.0.0.0 --port 8002 --reload
 2. Monitor the transformation process through the Prefect UI at `localhost:4200`
 
 
+## Scripts
+
+### 1. Run Transformations
+
+Script path: `scripts/run_transformations.py`
+
+Run on host:
+
+```bash
+python scripts/run_transformations.py 574ae00d-db14-4e46-82db-c143aa8c1a0f
+```
+
+Run inside API container:
+
+```bash
+docker compose exec api python /app/scripts/run_transformations.py 574ae00d-db14-4e46-82db-c143aa8c1a0f
+```
+
+### 2. Shared Checksums
+
+Script path: `scripts/shared_checksums.py`
+
+Run on host:
+
+```bash
+python scripts/shared_checksums.py --shared-path shared
+```
+
+Run inside API container:
+
+```bash
+docker compose exec api python /app/scripts/shared_checksums.py --shared-path /app/shared
+```
+
+Alternative in container (installed helper):
+
+```bash
+docker compose exec api python /usr/local/bin/shared_checksums.py --shared-path /app/shared
+```
+
+
 ## Trigger Transformations via console
 
 ```bash
-python run_transformations.py 574ae00d-db14-4e46-82db-c143aa8c1a0f
+python scripts/run_transformations.py 574ae00d-db14-4e46-82db-c143aa8c1a0f
 ```
 
 ## Tests

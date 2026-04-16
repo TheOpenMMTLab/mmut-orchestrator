@@ -1,0 +1,50 @@
+@prefix sh: <http://www.w3.org/ns/shacl#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+@prefix MMUT: <http://frittenburger.de/ontology/mmut#> .
+
+MMUT:TransformationShape
+	a sh:NodeShape ;
+	sh:targetClass MMUT:Transformation ;
+	# Data often uses concrete classes (e.g. MMUT:PythonScriptTransformation)
+	# without explicitly typing MMUT:Transformation.
+	sh:targetSubjectsOf MMUT:hasOutputModel ;
+
+	# A transformation must have at least one input model.
+	sh:property [
+		sh:path [ sh:inversePath MMUT:isInputModelOf ] ;
+		sh:minCount 1 ;
+		sh:nodeKind sh:IRI ;
+		sh:message "A transformation requires at least one input model." ;
+	] ;
+
+	# A transformation must have at least one output model.
+	# No sh:maxCount on purpose: multiple outputs are allowed.
+	sh:property [
+		sh:path MMUT:hasOutputModel ;
+		sh:minCount 1 ;
+		sh:nodeKind sh:IRI ;
+		sh:message "A transformation requires at least one output model." ;
+	] ;
+
+	# Expected by orchestrator logic: exactly one task definition per process step.
+	sh:property [
+		sh:path MMUT:hasTaskDefinition ;
+		sh:minCount 1 ;
+		sh:maxCount 1 ;
+		sh:nodeKind sh:IRI ;
+		sh:message "A transformation must have exactly one task definition." ;
+	] ;
+
+	# Loops are not allowed in the transformation graph.
+	# Path meaning:
+	#   transformation --hasOutputModel--> model --isInputModelOf--> transformation
+	# If this is reachable in one or more steps back to itself, there is a cycle.
+	sh:sparql [
+		sh:message "Loop detected: transformation graph must be acyclic." ;
+		sh:select """
+			SELECT $this
+			WHERE {
+				$this (MMUT:hasOutputModel/MMUT:isInputModelOf)+ $this .
+			}
+		""" ;
+	] .

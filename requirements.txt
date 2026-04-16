@@ -1,11 +1,2 @@
-docker_py==1.10.6
-fastapi==0.116.1
-networkx==3.1
-prefect==3.4.13
+-r requirements-api.txt
 pytest==8.2.1
-pyyaml>=6.0.0
-rdflib<7.0
-uvicorn==0.35.0
-pytest>=8.0.0
-git+https://github.com/dfriedenberger/obse.git
-git+https://github.com/TheOpenMMTLab/mmut-rdf-model.git

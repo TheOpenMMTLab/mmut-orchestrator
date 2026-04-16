@@ -18,12 +18,11 @@ RUN rm -rf docker
 
 ## Pythoin dependencies
 RUN pip3 install --upgrade pip
-RUN pip3 install docker
-RUN pip3 install prefect
-RUN pip3 install rdflib
-RUN pip3 install networkx
-RUN pip3 install git+https://github.com/dfriedenberger/obse.git
-RUN pip3 install git+https://github.com/dfriedenberger/mmut-rdf-model.git
+COPY requirements-api.txt /tmp/requirements-api.txt
+COPY requirements.txt /tmp/requirements.txt
+COPY scripts/shared_checksums.py /usr/local/bin/shared_checksums.py
+RUN pip3 install -r /tmp/requirements.txt
+RUN chmod +x /usr/local/bin/shared_checksums.py
 
 # prefect server shouls be accessible from outside the container
 ENV PREFECT_API_HOST=0.0.0.0

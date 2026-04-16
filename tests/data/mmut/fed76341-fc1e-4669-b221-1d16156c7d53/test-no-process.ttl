@@ -1,18 +1,19 @@
 @prefix MMUT: <http://frittenburger.de/ontology/mmut#> .
 @prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix testnoproc: <http://hpi.de/test-no-process#> .
 @prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
 
-<https://frittenburger.de/2022/11/EULYNX#SysMLMicroModel-SysML> a MMUT:SysMLMicroModel ;
+testnoproc:SysMLMicroModel-SysML a MMUT:SysMLMicroModel ;
     rdfs:label "SysML"^^xsd:string ;
-    MMUT:isInputModelOf <https://frittenburger.de/2022/11/EULYNX#PythonScriptTransformation-a> ;
+    MMUT:isInputModelOf testnoproc:PythonScriptTransformation-a ;
     rdfs:comment "SysML Papyrus Model"^^xsd:string .
 
-<https://frittenburger.de/2022/11/EULYNX#PythonScriptTransformation-a> a MMUT:PythonScriptTransformation ;
+testnoproc:PythonScriptTransformation-a a MMUT:PythonScriptTransformation ;
     rdfs:label "a"^^xsd:string ;
-    MMUT:hasOutputModel <https://frittenburger.de/2022/11/EULYNX#RDFMicroModel-rdf> ;
+    MMUT:hasOutputModel testnoproc:RDFMicroModel-rdf ;
     rdfs:comment "Create SysML to RDF Transformation"^^xsd:string .
 
-<https://frittenburger.de/2022/11/EULYNX#RDFMicroModel-rdf> a MMUT:RDFMicroModel ;
+testnoproc:RDFMicroModel-rdf a MMUT:RDFMicroModel ;
     rdfs:label "rdf"^^xsd:string ;
     rdfs:comment "RDF System Model"^^xsd:string .
 

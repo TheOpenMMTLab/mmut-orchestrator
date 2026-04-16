@@ -3,9 +3,8 @@ from fastapi.responses import JSONResponse, FileResponse
 from fastapi.staticfiles import StaticFiles
 
 import os
-import json
 from datetime import datetime
-from typing import Dict, Any
+from pathlib import Path
 import logging
 
 from util.trigger_process import trigger_process, get_mmut_dir, is_valid_uuid, read_info_json
@@ -98,9 +97,20 @@ async def trigger_flow_by_id(mmut_id: str, background_tasks: BackgroundTasks):
 @app.get("/health")
 async def health_check():
     """Health check endpoint"""
+    util_dir = Path(__file__).resolve().parent
+    checks = {
+        "static_index": (util_dir / "static" / "index.html").exists(),
+        "config_dir": (util_dir / "config").exists(),
+        "shared_dir": (util_dir / "shared").exists(),
+        "mmut_dir": Path(get_mmut_dir()).exists(),
+        "docker_socket": Path("/var/run/docker.sock").exists(),
+    }
+    status = "UP" if all(checks.values()) else "DEGRADED"
+
     return {
-        "status": "UP",
-        "timestamp": datetime.now().isoformat()
+        "status": status,
+        "timestamp": datetime.utcnow().isoformat() + "Z",
+        "checks": checks,
     }
 
 if __name__ == "__main__":

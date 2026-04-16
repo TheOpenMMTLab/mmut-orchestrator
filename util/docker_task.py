@@ -1,6 +1,6 @@
 import time
 from docker import DockerClient
-from prefect import task, get_run_logger
+from prefect import task, get_run_logger, runtime
 from prefect.states import Failed
 from .helper import get_shared
 
@@ -8,9 +8,14 @@ from .helper import get_shared
 @task
 def docker_task(params: str):
     logger = get_run_logger()
+    flow_run_name = runtime.flow_run.name
+    logger.info(f"Flow Run: {flow_run_name}")
     logger.info(f"Starte Container {params['name']} ...")
     logger.info(f"Image {params['image']}")
     logger.info(f"Command {params['command']}")
+
+    # Shared folder (e.g. models)
+    shared_models_folder = get_shared("models", flow_run_name)
 
     # Container starten
     client = DockerClient()
@@ -22,7 +27,7 @@ def docker_task(params: str):
         command=params['command'],
         auto_remove=False,  # Nicht automatisch entfernen, damit wir Logs sehen können
         volumes={
-            get_shared("models"): {
+            shared_models_folder: {
                 'bind': '/share/models',
                 'mode': 'rw'  # oder 'ro' für read-only
             }
