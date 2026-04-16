@@ -30,13 +30,14 @@ def test_trigger_process_valid(data_dir):
             trigger_process("833eee11-12f7-400d-ada8-0733c37a5563")
             mock_run.assert_called_once()
             args, _ = mock_run.call_args
-            # Ensure the first argument is a list of Process instances
-            assert len(args) == 1
+            # Ensure call signature is (processes, flow_name)
+            assert len(args) == 2
             assert len(args[0]) == 3
+            assert args[1] == "mmut-833eee11-12f7-400d-ada8-0733c37a5563"
             # Test EVA (Eingabe, Verarbeitung, Ausgabe)
-            assert args[0][0].id ==  "https://frittenburger.de/2022/11/EULYNX#SysMLMicroModel-SysML"
-            assert args[0][1].id ==  "https://frittenburger.de/2022/11/EULYNX#PythonScriptTransformation-a"
-            assert args[0][2].id ==  "https://frittenburger.de/2022/11/EULYNX#RDFMicroModel-rdf"
+            assert args[0][0].id ==  "http://hpi.de/test-valid#SysMLMicroModel-SysML"
+            assert args[0][1].id ==  "http://hpi.de/test-valid#PythonScriptTransformation-a"
+            assert args[0][2].id ==  "http://hpi.de/test-valid#RDFMicroModel-rdf"
 
 def test_trigger_process_valid_complex(data_dir):
 
@@ -45,17 +46,18 @@ def test_trigger_process_valid_complex(data_dir):
             trigger_process("8014cf0a-8d29-4cdb-9563-6b0e9fcf4b8f")
             mock_run.assert_called_once()
             args, _ = mock_run.call_args
-            # Ensure the first argument is a list of Process instances
-            assert len(args) == 1
+            # Ensure call signature is (processes, flow_name)
+            assert len(args) == 2
             assert len(args[0]) == 7
+            assert args[1] == "mmut-8014cf0a-8d29-4cdb-9563-6b0e9fcf4b8f"
             # Test EVA (Eingabe, Verarbeitung, Ausgabe)
-            assert args[0][0].id ==  "https://frittenburger.de/2022/11/EULYNX#SysMLMicroModel-Model-A2"
-            assert args[0][1].id ==  "https://frittenburger.de/2022/11/EULYNX#SysMLMicroModel-Model-A3"
-            assert args[0][2].id ==  "https://frittenburger.de/2022/11/EULYNX#PythonScriptTransformation-a"
-            assert args[0][3].id ==  "https://frittenburger.de/2022/11/EULYNX#PythonScriptTransformation-c"
-            assert args[0][4].id ==  "https://frittenburger.de/2022/11/EULYNX#RDFMicroModel-Model-A1"
-            assert args[0][5].id ==  "https://frittenburger.de/2022/11/EULYNX#PythonScriptTransformation-b"
-            assert args[0][6].id ==  "https://frittenburger.de/2022/11/EULYNX#RDFMicroModel-Output-Model"
+            assert args[0][0].id ==  "http://hpi.de/test-valid-complex#SysMLMicroModel-Model-A2"
+            assert args[0][1].id ==  "http://hpi.de/test-valid-complex#SysMLMicroModel-Model-A3"
+            assert args[0][2].id ==  "http://hpi.de/test-valid-complex#PythonScriptTransformation-a"
+            assert args[0][3].id ==  "http://hpi.de/test-valid-complex#PythonScriptTransformation-c"
+            assert args[0][4].id ==  "http://hpi.de/test-valid-complex#RDFMicroModel-Model-A1"
+            assert args[0][5].id ==  "http://hpi.de/test-valid-complex#PythonScriptTransformation-b"
+            assert args[0][6].id ==  "http://hpi.de/test-valid-complex#RDFMicroModel-Output-Model"
 
 
 def test_trigger_process_no_process(data_dir):

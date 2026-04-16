@@ -8,7 +8,6 @@ import json
 
 from .processes import get_processes
 from .process_pipeline_builder import Process
-from .docker_flow import run_docker_flow
 
 logger = logging.getLogger(__name__)
 
@@ -33,6 +32,10 @@ def get_mmut_dir():
 def run_docker_flow_sync(processes: List[Process], flow_name: str):
     """Run the docker_flow synchronously in a thread"""
     try:
+        # Import lazily to avoid initializing Prefect during module import
+        # (e.g. while running tests that mock this function).
+        from .docker_flow import run_docker_flow
+
         logger.info("Starting docker_flow")
         # Execute the flow
         run_docker_flow(processes, flow_name=flow_name)
