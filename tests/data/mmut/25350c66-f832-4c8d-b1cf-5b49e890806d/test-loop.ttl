@@ -10,7 +10,7 @@ testloop:ContainerProperties-Container-properties-for-Dummy-Load-SysML a MMUT:Co
             rdf:_1 "echo"^^xsd:string ;
             rdf:_2 "load SysML"^^xsd:string ] ;
     MMUT:hasEnvironment testloop:Environment-Environment-for-Dummy-Load-SysML ;
-    MMUT:image "simple-mut"^^xsd:string .
+    MMUT:image "frittenburger/simple-mut:dev"^^xsd:string .
 
 testloop:ContainerProperties-Container-properties-for-Dummy-Load-rdf a MMUT:ContainerProperties ;
     rdfs:label "Container properties for Dummy Load rdf"^^xsd:string ;
@@ -18,7 +18,7 @@ testloop:ContainerProperties-Container-properties-for-Dummy-Load-rdf a MMUT:Cont
             rdf:_1 "echo"^^xsd:string ;
             rdf:_2 "load rdf"^^xsd:string ] ;
     MMUT:hasEnvironment testloop:Environment-Environment-for-Dummy-Load-rdf ;
-    MMUT:image "simple-mut"^^xsd:string .
+    MMUT:image "frittenburger/simple-mut:dev"^^xsd:string .
 
 testloop:ContainerProperties-Container-properties-for-Dummy-Transform-a a MMUT:ContainerProperties ;
     rdfs:label "Container properties for Dummy Transform a"^^xsd:string ;
@@ -26,7 +26,7 @@ testloop:ContainerProperties-Container-properties-for-Dummy-Transform-a a MMUT:C
             rdf:_1 "echo"^^xsd:string ;
             rdf:_2 "transform a"^^xsd:string ] ;
     MMUT:hasEnvironment testloop:Environment-Environment-for-Dummy-Transform-a ;
-    MMUT:image "simple-mut"^^xsd:string .
+    MMUT:image "frittenburger/simple-mut:dev"^^xsd:string .
 
 testloop:ContainerProperties-Container-properties-for-Dummy-Transform-b a MMUT:ContainerProperties ;
     rdfs:label "Container properties for Dummy Transform b"^^xsd:string ;
@@ -34,7 +34,7 @@ testloop:ContainerProperties-Container-properties-for-Dummy-Transform-b a MMUT:C
             rdf:_1 "echo"^^xsd:string ;
             rdf:_2 "transform b"^^xsd:string ] ;
     MMUT:hasEnvironment testloop:Environment-Environment-for-Dummy-Transform-b ;
-    MMUT:image "simple-mut"^^xsd:string .
+    MMUT:image "frittenburger/simple-mut:dev"^^xsd:string .
 
 testloop:Environment-Environment-for-Dummy-Load-SysML a MMUT:Environment ;
     rdfs:label "Environment for Dummy Load SysML"^^xsd:string .

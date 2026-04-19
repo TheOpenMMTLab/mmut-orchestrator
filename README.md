@@ -79,6 +79,47 @@ Alternative in container (installed helper):
 docker compose exec api python /usr/local/bin/shared_checksums.py --shared-path /app/shared
 ```
 
+### 3. Prefect Runtimes
+
+Script path: `scripts/prefect_runtimes.py`
+
+Run on host:
+
+```bash
+python scripts/prefect_runtimes.py
+```
+
+Run inside API container:
+
+```bash
+docker compose exec api python /app/scripts/prefect_runtimes.py
+```
+
+Optional examples:
+
+```bash
+# show task runs for a specific flow run name
+python scripts/prefect_runtimes.py --run imperial-cuscus
+```
+
+### 4. Graph Properties
+
+Script path: `scripts/graph_properties.py`
+
+Analyze graph properties of a MMUT process model (number of transformations, models, task definitions, connected components, and longest path).
+
+Run on host:
+
+```bash
+python scripts/graph_properties.py 833eee11-12f7-400d-ada8-0733c37a5563
+```
+
+Run inside API container:
+
+```bash
+docker compose exec api python /app/scripts/graph_properties.py 833eee11-12f7-400d-ada8-0733c37a5563
+```
+
 
 ## Trigger Transformations via console
 

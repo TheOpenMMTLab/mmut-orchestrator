@@ -1,0 +1,255 @@
+@prefix MMUT: <http://frittenburger.de/ontology/mmut#> .
+@prefix benchmark: <http://hpi.de/benchmark#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+benchmark:BinaryMicroModel-Input-Text-A a MMUT:BinaryMicroModel ;
+    rdfs:label "Input Text A"^^xsd:string ;
+    MMUT:hasTaskDefinition benchmark:TaskDefinition-Load-Input-Text-A-from-public-Git ;
+    MMUT:isInputModelOf benchmark:PythonScriptTransformation-Sort-Input-A ;
+    rdfs:comment "Text file A from a public GitHub repository (gitignore collection)"^^xsd:string .
+
+benchmark:BinaryMicroModel-Input-Text-B a MMUT:BinaryMicroModel ;
+    rdfs:label "Input Text B"^^xsd:string ;
+    MMUT:hasTaskDefinition benchmark:TaskDefinition-Load-Input-Text-B-from-public-Git ;
+    MMUT:isInputModelOf benchmark:PythonScriptTransformation-Unique-Input-B ;
+    rdfs:comment "Text file B from a public GitHub repository (awesome-readme)"^^xsd:string .
+
+benchmark:BinaryMicroModel-Intermediate-A a MMUT:BinaryMicroModel ;
+    rdfs:label "Intermediate A"^^xsd:string ;
+    MMUT:hasTaskDefinition benchmark:TaskDefinition-Dummy-Load-Intermediate-A ;
+    MMUT:isInputModelOf benchmark:PythonScriptTransformation-Merge-to-Output-1,
+        benchmark:PythonScriptTransformation-Unique-to-Output-2 ;
+    rdfs:comment "Line-wise sorted output from Input A"^^xsd:string .
+
+benchmark:BinaryMicroModel-Intermediate-B a MMUT:BinaryMicroModel ;
+    rdfs:label "Intermediate B"^^xsd:string ;
+    MMUT:hasTaskDefinition benchmark:TaskDefinition-Dummy-Load-Intermediate-B ;
+    MMUT:isInputModelOf benchmark:PythonScriptTransformation-Merge-to-Output-1 ;
+    rdfs:comment "Filtered lines from Input B"^^xsd:string .
+
+benchmark:BinaryMicroModel-Output-Model-1 a MMUT:BinaryMicroModel ;
+    rdfs:label "Output Model 1"^^xsd:string ;
+    MMUT:hasTaskDefinition benchmark:TaskDefinition-Dummy-Load-Output-Model-1 ;
+    rdfs:comment "Merged output from Intermediate A and B"^^xsd:string .
+
+benchmark:BinaryMicroModel-Output-Model-2 a MMUT:BinaryMicroModel ;
+    rdfs:label "Output Model 2"^^xsd:string ;
+    MMUT:hasTaskDefinition benchmark:TaskDefinition-Dummy-Load-Output-Model-2 ;
+    rdfs:comment "Additional filtered result from Intermediate A"^^xsd:string .
+
+benchmark:ContainerProperties-Container-properties-for-Dummy-Load-Intermediate-A a MMUT:ContainerProperties ;
+    rdfs:label "Container properties for Dummy Load Intermediate A"^^xsd:string ;
+    MMUT:hasCommandSequence [ a rdf:Seq ;
+            rdf:_1 "echo"^^xsd:string ;
+            rdf:_2 "load Intermediate A"^^xsd:string ] ;
+    MMUT:hasEnvironment benchmark:Environment-Environment-for-Dummy-Load-Intermediate-A ;
+    MMUT:image "frittenburger/simple-mut:dev"^^xsd:string .
+
+benchmark:ContainerProperties-Container-properties-for-Dummy-Load-Intermediate-B a MMUT:ContainerProperties ;
+    rdfs:label "Container properties for Dummy Load Intermediate B"^^xsd:string ;
+    MMUT:hasCommandSequence [ a rdf:Seq ;
+            rdf:_1 "echo"^^xsd:string ;
+            rdf:_2 "load Intermediate B"^^xsd:string ] ;
+    MMUT:hasEnvironment benchmark:Environment-Environment-for-Dummy-Load-Intermediate-B ;
+    MMUT:image "frittenburger/simple-mut:dev"^^xsd:string .
+
+benchmark:ContainerProperties-Container-properties-for-Dummy-Load-Output-Model-1 a MMUT:ContainerProperties ;
+    rdfs:label "Container properties for Dummy Load Output Model 1"^^xsd:string ;
+    MMUT:hasCommandSequence [ a rdf:Seq ;
+            rdf:_1 "echo"^^xsd:string ;
+            rdf:_2 "load Output Model 1"^^xsd:string ] ;
+    MMUT:hasEnvironment benchmark:Environment-Environment-for-Dummy-Load-Output-Model-1 ;
+    MMUT:image "frittenburger/simple-mut:dev"^^xsd:string .
+
+benchmark:ContainerProperties-Container-properties-for-Dummy-Load-Output-Model-2 a MMUT:ContainerProperties ;
+    rdfs:label "Container properties for Dummy Load Output Model 2"^^xsd:string ;
+    MMUT:hasCommandSequence [ a rdf:Seq ;
+            rdf:_1 "echo"^^xsd:string ;
+            rdf:_2 "load Output Model 2"^^xsd:string ] ;
+    MMUT:hasEnvironment benchmark:Environment-Environment-for-Dummy-Load-Output-Model-2 ;
+    MMUT:image "frittenburger/simple-mut:dev"^^xsd:string .
+
+benchmark:ContainerProperties-Container-properties-for-Load-Input-Text-A-from-public-Git a MMUT:ContainerProperties ;
+    rdfs:label "Container properties for Load Input Text A from public Git"^^xsd:string ;
+    MMUT:hasCommandSequence [ a rdf:Seq ;
+            rdf:_1 "./get.sh"^^xsd:string ;
+            rdf:_2 "--repo"^^xsd:string ;
+            rdf:_3 "https://github.com/dfriedenberger/words"^^xsd:string ;
+            rdf:_4 "--input-path"^^xsd:string ;
+            rdf:_5 "words-alpha.txt"^^xsd:string ;
+            rdf:_6 "--output-path"^^xsd:string ;
+            rdf:_7 "{{resolve:system:modelpath}}input_a.txt"^^xsd:string ;
+            rdf:_8 "--ref"^^xsd:string ;
+            rdf:_9 "v1.0.0"^^xsd:string ] ;
+    MMUT:hasEnvironment benchmark:Environment-Environment-for-Load-Input-Text-A-from-public-Git ;
+    MMUT:image "frittenburger/git-adapter:dev"^^xsd:string .
+
+benchmark:ContainerProperties-Container-properties-for-Load-Input-Text-B-from-public-Git a MMUT:ContainerProperties ;
+    rdfs:label "Container properties for Load Input Text B from public Git"^^xsd:string ;
+    MMUT:hasCommandSequence [ a rdf:Seq ;
+            rdf:_1 "./get.sh"^^xsd:string ;
+            rdf:_2 "--repo"^^xsd:string ;
+            rdf:_3 "https://github.com/dfriedenberger/words"^^xsd:string ;
+            rdf:_4 "--input-path"^^xsd:string ;
+            rdf:_5 "words-beta.txt"^^xsd:string ;
+            rdf:_6 "--output-path"^^xsd:string ;
+            rdf:_7 "{{resolve:system:modelpath}}input_b.txt"^^xsd:string ;
+            rdf:_8 "--ref"^^xsd:string ;
+            rdf:_9 "v1.0.0"^^xsd:string ] ;
+    MMUT:hasEnvironment benchmark:Environment-Environment-for-Load-Input-Text-B-from-public-Git ;
+    MMUT:image "frittenburger/git-adapter:dev"^^xsd:string .
+
+benchmark:ContainerProperties-Container-properties-for-Simulation-Merge-to-Output-1 a MMUT:ContainerProperties ;
+    rdfs:label "Container properties for Simulation Merge to Output 1"^^xsd:string ;
+    MMUT:hasCommandSequence [ a rdf:Seq ;
+            rdf:_1 "--function"^^xsd:string ;
+            rdf:_10 "{{resolve:system:modelpath}}intermediate_b.txt"^^xsd:string ;
+            rdf:_2 "merge"^^xsd:string ;
+            rdf:_3 "--runtime"^^xsd:string ;
+            rdf:_4 "20"^^xsd:string ;
+            rdf:_5 "--input"^^xsd:string ;
+            rdf:_6 "{{resolve:system:modelpath}}intermediate_a.txt"^^xsd:string ;
+            rdf:_7 "--output"^^xsd:string ;
+            rdf:_8 "{{resolve:system:modelpath}}output_1.txt"^^xsd:string ;
+            rdf:_9 "--input-b"^^xsd:string ] ;
+    MMUT:hasEnvironment benchmark:Environment-Environment-for-Simulation-Merge-to-Output-1 ;
+    MMUT:image "frittenburger/transformation-simu:dev"^^xsd:string .
+
+benchmark:ContainerProperties-Container-properties-for-Simulation-Sort-Input-A a MMUT:ContainerProperties ;
+    rdfs:label "Container properties for Simulation Sort Input A"^^xsd:string ;
+    MMUT:hasCommandSequence [ a rdf:Seq ;
+            rdf:_1 "--function"^^xsd:string ;
+            rdf:_2 "sort"^^xsd:string ;
+            rdf:_3 "--runtime"^^xsd:string ;
+            rdf:_4 "30"^^xsd:string ;
+            rdf:_5 "--input"^^xsd:string ;
+            rdf:_6 "{{resolve:system:modelpath}}input_a.txt"^^xsd:string ;
+            rdf:_7 "--output"^^xsd:string ;
+            rdf:_8 "{{resolve:system:modelpath}}intermediate_a.txt"^^xsd:string ] ;
+    MMUT:hasEnvironment benchmark:Environment-Environment-for-Simulation-Sort-Input-A ;
+    MMUT:image "frittenburger/transformation-simu:dev"^^xsd:string .
+
+benchmark:ContainerProperties-Container-properties-for-Simulation-Unique-Input-B a MMUT:ContainerProperties ;
+    rdfs:label "Container properties for Simulation Unique Input B"^^xsd:string ;
+    MMUT:hasCommandSequence [ a rdf:Seq ;
+            rdf:_1 "--function"^^xsd:string ;
+            rdf:_2 "unique"^^xsd:string ;
+            rdf:_3 "--runtime"^^xsd:string ;
+            rdf:_4 "15"^^xsd:string ;
+            rdf:_5 "--input"^^xsd:string ;
+            rdf:_6 "{{resolve:system:modelpath}}input_b.txt"^^xsd:string ;
+            rdf:_7 "--output"^^xsd:string ;
+            rdf:_8 "{{resolve:system:modelpath}}intermediate_b.txt"^^xsd:string ] ;
+    MMUT:hasEnvironment benchmark:Environment-Environment-for-Simulation-Unique-Input-B ;
+    MMUT:image "frittenburger/transformation-simu:dev"^^xsd:string .
+
+benchmark:ContainerProperties-Container-properties-for-Simulation-Unique-to-Output-2 a MMUT:ContainerProperties ;
+    rdfs:label "Container properties for Simulation Unique to Output 2"^^xsd:string ;
+    MMUT:hasCommandSequence [ a rdf:Seq ;
+            rdf:_1 "--function"^^xsd:string ;
+            rdf:_2 "unique"^^xsd:string ;
+            rdf:_3 "--runtime"^^xsd:string ;
+            rdf:_4 "45"^^xsd:string ;
+            rdf:_5 "--input"^^xsd:string ;
+            rdf:_6 "{{resolve:system:modelpath}}intermediate_a.txt"^^xsd:string ;
+            rdf:_7 "--output"^^xsd:string ;
+            rdf:_8 "{{resolve:system:modelpath}}output_2.txt"^^xsd:string ] ;
+    MMUT:hasEnvironment benchmark:Environment-Environment-for-Simulation-Unique-to-Output-2 ;
+    MMUT:image "frittenburger/transformation-simu:dev"^^xsd:string .
+
+benchmark:Environment-Environment-for-Dummy-Load-Intermediate-A a MMUT:Environment ;
+    rdfs:label "Environment for Dummy Load Intermediate A"^^xsd:string .
+
+benchmark:Environment-Environment-for-Dummy-Load-Intermediate-B a MMUT:Environment ;
+    rdfs:label "Environment for Dummy Load Intermediate B"^^xsd:string .
+
+benchmark:Environment-Environment-for-Dummy-Load-Output-Model-1 a MMUT:Environment ;
+    rdfs:label "Environment for Dummy Load Output Model 1"^^xsd:string .
+
+benchmark:Environment-Environment-for-Dummy-Load-Output-Model-2 a MMUT:Environment ;
+    rdfs:label "Environment for Dummy Load Output Model 2"^^xsd:string .
+
+benchmark:Environment-Environment-for-Load-Input-Text-A-from-public-Git a MMUT:Environment ;
+    rdfs:label "Environment for Load Input Text A from public Git"^^xsd:string .
+
+benchmark:Environment-Environment-for-Load-Input-Text-B-from-public-Git a MMUT:Environment ;
+    rdfs:label "Environment for Load Input Text B from public Git"^^xsd:string .
+
+benchmark:Environment-Environment-for-Simulation-Merge-to-Output-1 a MMUT:Environment ;
+    rdfs:label "Environment for Simulation Merge to Output 1"^^xsd:string .
+
+benchmark:Environment-Environment-for-Simulation-Sort-Input-A a MMUT:Environment ;
+    rdfs:label "Environment for Simulation Sort Input A"^^xsd:string .
+
+benchmark:Environment-Environment-for-Simulation-Unique-Input-B a MMUT:Environment ;
+    rdfs:label "Environment for Simulation Unique Input B"^^xsd:string .
+
+benchmark:Environment-Environment-for-Simulation-Unique-to-Output-2 a MMUT:Environment ;
+    rdfs:label "Environment for Simulation Unique to Output 2"^^xsd:string .
+
+benchmark:PythonScriptTransformation-Sort-Input-A a MMUT:PythonScriptTransformation ;
+    rdfs:label "Sort Input A"^^xsd:string ;
+    MMUT:hasOutputModel benchmark:BinaryMicroModel-Intermediate-A ;
+    MMUT:hasTaskDefinition benchmark:TaskDefinition-Simulation-Sort-Input-A ;
+    rdfs:comment "Sorts lines from Input A (simulated runtime 30s)"^^xsd:string .
+
+benchmark:PythonScriptTransformation-Unique-Input-B a MMUT:PythonScriptTransformation ;
+    rdfs:label "Unique Input B"^^xsd:string ;
+    MMUT:hasOutputModel benchmark:BinaryMicroModel-Intermediate-B ;
+    MMUT:hasTaskDefinition benchmark:TaskDefinition-Simulation-Unique-Input-B ;
+    rdfs:comment "Removes duplicate lines from Input B (simulated runtime 15s)"^^xsd:string .
+
+benchmark:PythonScriptTransformation-Unique-to-Output-2 a MMUT:PythonScriptTransformation ;
+    rdfs:label "Unique to Output 2"^^xsd:string ;
+    MMUT:hasOutputModel benchmark:BinaryMicroModel-Output-Model-2 ;
+    MMUT:hasTaskDefinition benchmark:TaskDefinition-Simulation-Unique-to-Output-2 ;
+    rdfs:comment "Removes duplicate lines from Intermediate A (simulated runtime 45s)"^^xsd:string .
+
+benchmark:TaskDefinition-Dummy-Load-Intermediate-A a MMUT:TaskDefinition ;
+    rdfs:label "Dummy Load Intermediate A"^^xsd:string ;
+    MMUT:hasContainerProperties benchmark:ContainerProperties-Container-properties-for-Dummy-Load-Intermediate-A .
+
+benchmark:TaskDefinition-Dummy-Load-Intermediate-B a MMUT:TaskDefinition ;
+    rdfs:label "Dummy Load Intermediate B"^^xsd:string ;
+    MMUT:hasContainerProperties benchmark:ContainerProperties-Container-properties-for-Dummy-Load-Intermediate-B .
+
+benchmark:TaskDefinition-Dummy-Load-Output-Model-1 a MMUT:TaskDefinition ;
+    rdfs:label "Dummy Load Output Model 1"^^xsd:string ;
+    MMUT:hasContainerProperties benchmark:ContainerProperties-Container-properties-for-Dummy-Load-Output-Model-1 .
+
+benchmark:TaskDefinition-Dummy-Load-Output-Model-2 a MMUT:TaskDefinition ;
+    rdfs:label "Dummy Load Output Model 2"^^xsd:string ;
+    MMUT:hasContainerProperties benchmark:ContainerProperties-Container-properties-for-Dummy-Load-Output-Model-2 .
+
+benchmark:TaskDefinition-Load-Input-Text-A-from-public-Git a MMUT:TaskDefinition ;
+    rdfs:label "Load Input Text A from public Git"^^xsd:string ;
+    MMUT:hasContainerProperties benchmark:ContainerProperties-Container-properties-for-Load-Input-Text-A-from-public-Git .
+
+benchmark:TaskDefinition-Load-Input-Text-B-from-public-Git a MMUT:TaskDefinition ;
+    rdfs:label "Load Input Text B from public Git"^^xsd:string ;
+    MMUT:hasContainerProperties benchmark:ContainerProperties-Container-properties-for-Load-Input-Text-B-from-public-Git .
+
+benchmark:TaskDefinition-Simulation-Merge-to-Output-1 a MMUT:TaskDefinition ;
+    rdfs:label "Simulation Merge to Output 1"^^xsd:string ;
+    MMUT:hasContainerProperties benchmark:ContainerProperties-Container-properties-for-Simulation-Merge-to-Output-1 .
+
+benchmark:TaskDefinition-Simulation-Sort-Input-A a MMUT:TaskDefinition ;
+    rdfs:label "Simulation Sort Input A"^^xsd:string ;
+    MMUT:hasContainerProperties benchmark:ContainerProperties-Container-properties-for-Simulation-Sort-Input-A .
+
+benchmark:TaskDefinition-Simulation-Unique-Input-B a MMUT:TaskDefinition ;
+    rdfs:label "Simulation Unique Input B"^^xsd:string ;
+    MMUT:hasContainerProperties benchmark:ContainerProperties-Container-properties-for-Simulation-Unique-Input-B .
+
+benchmark:TaskDefinition-Simulation-Unique-to-Output-2 a MMUT:TaskDefinition ;
+    rdfs:label "Simulation Unique to Output 2"^^xsd:string ;
+    MMUT:hasContainerProperties benchmark:ContainerProperties-Container-properties-for-Simulation-Unique-to-Output-2 .
+
+benchmark:PythonScriptTransformation-Merge-to-Output-1 a MMUT:PythonScriptTransformation ;
+    rdfs:label "Merge to Output 1"^^xsd:string ;
+    MMUT:hasOutputModel benchmark:BinaryMicroModel-Output-Model-1 ;
+    MMUT:hasTaskDefinition benchmark:TaskDefinition-Simulation-Merge-to-Output-1 ;
+    rdfs:comment "Merges Intermediate A and B (simulated runtime 20s)"^^xsd:string .
+

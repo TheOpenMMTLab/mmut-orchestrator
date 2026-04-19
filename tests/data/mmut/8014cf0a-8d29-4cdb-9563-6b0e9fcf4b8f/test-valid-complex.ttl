@@ -4,11 +4,11 @@
 @prefix testcomplex: <http://hpi.de/test-valid-complex#> .
 @prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
 
-testcomplex:PythonScriptTransformation-a a MMUT:PythonScriptTransformation ;
-    rdfs:label "a"^^xsd:string ;
-    MMUT:hasOutputModel testcomplex:RDFMicroModel-Model-A1 ;
-    MMUT:hasTaskDefinition testcomplex:TaskDefinition-Dummy-Transform-a ;
-    rdfs:comment "Create Model A1"^^xsd:string .
+testcomplex:BinaryMicroModel-Config a MMUT:BinaryMicroModel ;
+    rdfs:label "Config"^^xsd:string ;
+    MMUT:hasTaskDefinition testcomplex:TaskDefinition-Dummy-Load-Config ;
+    MMUT:isInputModelOf testcomplex:PythonScriptTransformation-a ;
+    rdfs:comment "A simple config input file"^^xsd:string .
 
 testcomplex:SysMLMicroModel-Model-A2 a MMUT:SysMLMicroModel ;
     rdfs:label "Model A2"^^xsd:string ;
@@ -22,13 +22,21 @@ testcomplex:SysMLMicroModel-Model-A3 a MMUT:SysMLMicroModel ;
     MMUT:isInputModelOf testcomplex:PythonScriptTransformation-c ;
     rdfs:comment "An Example Model"^^xsd:string .
 
+testcomplex:ContainerProperties-Container-properties-for-Dummy-Load-Config a MMUT:ContainerProperties ;
+    rdfs:label "Container properties for Dummy Load Config"^^xsd:string ;
+    MMUT:hasCommandSequence [ a rdf:Seq ;
+            rdf:_1 "echo"^^xsd:string ;
+            rdf:_2 "load Config"^^xsd:string ] ;
+    MMUT:hasEnvironment testcomplex:Environment-Environment-for-Dummy-Load-Config ;
+    MMUT:image "frittenburger/simple-mut:dev"^^xsd:string .
+
 testcomplex:ContainerProperties-Container-properties-for-Dummy-Load-Model-A1 a MMUT:ContainerProperties ;
     rdfs:label "Container properties for Dummy Load Model A1"^^xsd:string ;
     MMUT:hasCommandSequence [ a rdf:Seq ;
             rdf:_1 "echo"^^xsd:string ;
             rdf:_2 "load Model A1"^^xsd:string ] ;
     MMUT:hasEnvironment testcomplex:Environment-Environment-for-Dummy-Load-Model-A1 ;
-    MMUT:image "simple-mut"^^xsd:string .
+    MMUT:image "frittenburger/simple-mut:dev"^^xsd:string .
 
 testcomplex:ContainerProperties-Container-properties-for-Dummy-Load-Model-A2 a MMUT:ContainerProperties ;
     rdfs:label "Container properties for Dummy Load Model A2"^^xsd:string ;
@@ -36,7 +44,7 @@ testcomplex:ContainerProperties-Container-properties-for-Dummy-Load-Model-A2 a M
             rdf:_1 "echo"^^xsd:string ;
             rdf:_2 "load Model A2"^^xsd:string ] ;
     MMUT:hasEnvironment testcomplex:Environment-Environment-for-Dummy-Load-Model-A2 ;
-    MMUT:image "simple-mut"^^xsd:string .
+    MMUT:image "frittenburger/simple-mut:dev"^^xsd:string .
 
 testcomplex:ContainerProperties-Container-properties-for-Dummy-Load-Model-A3 a MMUT:ContainerProperties ;
     rdfs:label "Container properties for Dummy Load Model A3"^^xsd:string ;
@@ -44,7 +52,7 @@ testcomplex:ContainerProperties-Container-properties-for-Dummy-Load-Model-A3 a M
             rdf:_1 "echo"^^xsd:string ;
             rdf:_2 "load Model A3"^^xsd:string ] ;
     MMUT:hasEnvironment testcomplex:Environment-Environment-for-Dummy-Load-Model-A3 ;
-    MMUT:image "simple-mut"^^xsd:string .
+    MMUT:image "frittenburger/simple-mut:dev"^^xsd:string .
 
 testcomplex:ContainerProperties-Container-properties-for-Dummy-Load-Output-Model a MMUT:ContainerProperties ;
     rdfs:label "Container properties for Dummy Load Output Model"^^xsd:string ;
@@ -52,7 +60,7 @@ testcomplex:ContainerProperties-Container-properties-for-Dummy-Load-Output-Model
             rdf:_1 "echo"^^xsd:string ;
             rdf:_2 "load Output Model"^^xsd:string ] ;
     MMUT:hasEnvironment testcomplex:Environment-Environment-for-Dummy-Load-Output-Model ;
-    MMUT:image "simple-mut"^^xsd:string .
+    MMUT:image "frittenburger/simple-mut:dev"^^xsd:string .
 
 testcomplex:ContainerProperties-Container-properties-for-Dummy-Transform-a a MMUT:ContainerProperties ;
     rdfs:label "Container properties for Dummy Transform a"^^xsd:string ;
@@ -60,7 +68,7 @@ testcomplex:ContainerProperties-Container-properties-for-Dummy-Transform-a a MMU
             rdf:_1 "echo"^^xsd:string ;
             rdf:_2 "transform a"^^xsd:string ] ;
     MMUT:hasEnvironment testcomplex:Environment-Environment-for-Dummy-Transform-a ;
-    MMUT:image "simple-mut"^^xsd:string .
+    MMUT:image "frittenburger/simple-mut:dev"^^xsd:string .
 
 testcomplex:ContainerProperties-Container-properties-for-Dummy-Transform-b a MMUT:ContainerProperties ;
     rdfs:label "Container properties for Dummy Transform b"^^xsd:string ;
@@ -68,7 +76,7 @@ testcomplex:ContainerProperties-Container-properties-for-Dummy-Transform-b a MMU
             rdf:_1 "echo"^^xsd:string ;
             rdf:_2 "transform b"^^xsd:string ] ;
     MMUT:hasEnvironment testcomplex:Environment-Environment-for-Dummy-Transform-b ;
-    MMUT:image "simple-mut"^^xsd:string .
+    MMUT:image "frittenburger/simple-mut:dev"^^xsd:string .
 
 testcomplex:ContainerProperties-Container-properties-for-Dummy-Transform-c a MMUT:ContainerProperties ;
     rdfs:label "Container properties for Dummy Transform c"^^xsd:string ;
@@ -76,7 +84,10 @@ testcomplex:ContainerProperties-Container-properties-for-Dummy-Transform-c a MMU
             rdf:_1 "echo"^^xsd:string ;
             rdf:_2 "transform c"^^xsd:string ] ;
     MMUT:hasEnvironment testcomplex:Environment-Environment-for-Dummy-Transform-c ;
-    MMUT:image "simple-mut"^^xsd:string .
+    MMUT:image "frittenburger/simple-mut:dev"^^xsd:string .
+
+testcomplex:Environment-Environment-for-Dummy-Load-Config a MMUT:Environment ;
+    rdfs:label "Environment for Dummy Load Config"^^xsd:string .
 
 testcomplex:Environment-Environment-for-Dummy-Load-Model-A1 a MMUT:Environment ;
     rdfs:label "Environment for Dummy Load Model A1"^^xsd:string .
@@ -99,6 +110,12 @@ testcomplex:Environment-Environment-for-Dummy-Transform-b a MMUT:Environment ;
 testcomplex:Environment-Environment-for-Dummy-Transform-c a MMUT:Environment ;
     rdfs:label "Environment for Dummy Transform c"^^xsd:string .
 
+testcomplex:PythonScriptTransformation-a a MMUT:PythonScriptTransformation ;
+    rdfs:label "a"^^xsd:string ;
+    MMUT:hasOutputModel testcomplex:RDFMicroModel-Model-A1 ;
+    MMUT:hasTaskDefinition testcomplex:TaskDefinition-Dummy-Transform-a ;
+    rdfs:comment "Create Model A1"^^xsd:string .
+
 testcomplex:PythonScriptTransformation-c a MMUT:PythonScriptTransformation ;
     rdfs:label "c"^^xsd:string ;
     MMUT:hasOutputModel testcomplex:RDFMicroModel-Output-Model ;
@@ -110,6 +127,10 @@ testcomplex:RDFMicroModel-Model-A1 a MMUT:RDFMicroModel ;
     MMUT:hasTaskDefinition testcomplex:TaskDefinition-Dummy-Load-Model-A1 ;
     MMUT:isInputModelOf testcomplex:PythonScriptTransformation-b ;
     rdfs:comment "An Example Model"^^xsd:string .
+
+testcomplex:TaskDefinition-Dummy-Load-Config a MMUT:TaskDefinition ;
+    rdfs:label "Dummy Load Config"^^xsd:string ;
+    MMUT:hasContainerProperties testcomplex:ContainerProperties-Container-properties-for-Dummy-Load-Config .
 
 testcomplex:TaskDefinition-Dummy-Load-Model-A1 a MMUT:TaskDefinition ;
     rdfs:label "Dummy Load Model A1"^^xsd:string ;
