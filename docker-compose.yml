@@ -1,29 +1,13 @@
 services:
-  prefect:
+  orchestrator:
     build:
       context: .
-      dockerfile: docker/prefect.Dockerfile
-    container_name: mmut-orch-prefect
+      dockerfile: docker/Dockerfile
+    container_name: mmut-orchestrator
+    image: frittenburger/mmut-orchestrator:docker-test3
+    command: ["/usr/local/bin/start-services.sh"]
     ports:
       - "4200:4200"
-    environment:
-      - PREFECT_API_HOST=0.0.0.0
-      - PREFECT_API_URL=http://127.0.0.1:4200/api
-    healthcheck:
-      test: ["CMD-SHELL", "curl -fsS http://localhost:4200/api/health >/dev/null || curl -fsS http://localhost:4200/docs >/dev/null"]
-      interval: 15s
-      timeout: 5s
-      retries: 10
-      start_period: 20s
-    networks:
-      - mmut-network
-
-  api:
-    build:
-      context: .
-      dockerfile: docker/api.Dockerfile
-    container_name: mmut-orch-api
-    ports:
       - "8002:8002"
     volumes:
       - ./config:/app/config
@@ -31,19 +15,11 @@ services:
       - ./shared:/app/shared
       - /var/run/docker.sock:/var/run/docker.sock
     environment:
-      - PREFECT_API_URL=http://prefect:4200/api
-    depends_on:
-      prefect:
-        condition: service_healthy
+      - PREFECT_API_HOST=0.0.0.0
+      - PREFECT_API_URL=http://127.0.0.1:4200/api
     healthcheck:
-      test: ["CMD-SHELL", "curl -fsS http://localhost:8002/health >/dev/null"]
+      test: ["CMD-SHELL", "curl -fsS http://localhost:8002/health >/dev/null && curl -fsS http://localhost:4200/api/health >/dev/null"]
       interval: 15s
       timeout: 5s
       retries: 10
-      start_period: 15s
-    networks:
-      - mmut-network
-
-networks:
-  mmut-network:
-    driver: bridge
+      start_period: 25s

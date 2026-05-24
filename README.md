@@ -20,7 +20,7 @@ Build and start the services with Docker Compose:
 docker compose up --build
 ```
 
-The compose setup builds dedicated images for the API and Prefect services. Runtime data folders (`config`, `mmut`, `shared`) are mounted into the API container, and the Docker socket is mounted so the orchestrator can start transformation containers.
+The compose setup builds a single combined image and starts both services (Prefect + API) inside one container via a startup script. Runtime data folders (`config`, `mmut`, `shared`) are mounted into the container, and the Docker socket is mounted so the orchestrator can start transformation containers.
 
 Stop services:
 

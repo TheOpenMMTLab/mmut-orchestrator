@@ -104,15 +104,15 @@ benchmark:ContainerProperties-Container-properties-for-Load-Input-Text-B-from-pu
 benchmark:ContainerProperties-Container-properties-for-Simulation-Merge-to-Output-1 a MMUT:ContainerProperties ;
     rdfs:label "Container properties for Simulation Merge to Output 1"^^xsd:string ;
     MMUT:hasCommandSequence [ a rdf:Seq ;
-            rdf:_1 "--function"^^xsd:string ;
+            rdf:_1 "--input"^^xsd:string ;
             rdf:_10 "{{resolve:system:modelpath}}intermediate_b.txt"^^xsd:string ;
-            rdf:_2 "merge"^^xsd:string ;
-            rdf:_3 "--runtime"^^xsd:string ;
-            rdf:_4 "20"^^xsd:string ;
-            rdf:_5 "--input"^^xsd:string ;
-            rdf:_6 "{{resolve:system:modelpath}}intermediate_a.txt"^^xsd:string ;
-            rdf:_7 "--output"^^xsd:string ;
-            rdf:_8 "{{resolve:system:modelpath}}output_1.txt"^^xsd:string ;
+            rdf:_2 "{{resolve:system:modelpath}}intermediate_a.txt"^^xsd:string ;
+            rdf:_3 "--output"^^xsd:string ;
+            rdf:_4 "{{resolve:system:modelpath}}output_1.txt"^^xsd:string ;
+            rdf:_5 "--function"^^xsd:string ;
+            rdf:_6 "merge"^^xsd:string ;
+            rdf:_7 "--runtime"^^xsd:string ;
+            rdf:_8 "20"^^xsd:string ;
             rdf:_9 "--input-b"^^xsd:string ] ;
     MMUT:hasEnvironment benchmark:Environment-Environment-for-Simulation-Merge-to-Output-1 ;
     MMUT:image "frittenburger/transformation-simu:dev"^^xsd:string .
@@ -120,42 +120,42 @@ benchmark:ContainerProperties-Container-properties-for-Simulation-Merge-to-Outpu
 benchmark:ContainerProperties-Container-properties-for-Simulation-Sort-Input-A a MMUT:ContainerProperties ;
     rdfs:label "Container properties for Simulation Sort Input A"^^xsd:string ;
     MMUT:hasCommandSequence [ a rdf:Seq ;
-            rdf:_1 "--function"^^xsd:string ;
-            rdf:_2 "sort"^^xsd:string ;
-            rdf:_3 "--runtime"^^xsd:string ;
-            rdf:_4 "30"^^xsd:string ;
-            rdf:_5 "--input"^^xsd:string ;
-            rdf:_6 "{{resolve:system:modelpath}}input_a.txt"^^xsd:string ;
-            rdf:_7 "--output"^^xsd:string ;
-            rdf:_8 "{{resolve:system:modelpath}}intermediate_a.txt"^^xsd:string ] ;
+            rdf:_1 "--input"^^xsd:string ;
+            rdf:_2 "{{resolve:system:modelpath}}input_a.txt"^^xsd:string ;
+            rdf:_3 "--output"^^xsd:string ;
+            rdf:_4 "{{resolve:system:modelpath}}intermediate_a.txt"^^xsd:string ;
+            rdf:_5 "--function"^^xsd:string ;
+            rdf:_6 "sort"^^xsd:string ;
+            rdf:_7 "--runtime"^^xsd:string ;
+            rdf:_8 "30"^^xsd:string ] ;
     MMUT:hasEnvironment benchmark:Environment-Environment-for-Simulation-Sort-Input-A ;
     MMUT:image "frittenburger/transformation-simu:dev"^^xsd:string .
 
 benchmark:ContainerProperties-Container-properties-for-Simulation-Unique-Input-B a MMUT:ContainerProperties ;
     rdfs:label "Container properties for Simulation Unique Input B"^^xsd:string ;
     MMUT:hasCommandSequence [ a rdf:Seq ;
-            rdf:_1 "--function"^^xsd:string ;
-            rdf:_2 "unique"^^xsd:string ;
-            rdf:_3 "--runtime"^^xsd:string ;
-            rdf:_4 "15"^^xsd:string ;
-            rdf:_5 "--input"^^xsd:string ;
-            rdf:_6 "{{resolve:system:modelpath}}input_b.txt"^^xsd:string ;
-            rdf:_7 "--output"^^xsd:string ;
-            rdf:_8 "{{resolve:system:modelpath}}intermediate_b.txt"^^xsd:string ] ;
+            rdf:_1 "--input"^^xsd:string ;
+            rdf:_2 "{{resolve:system:modelpath}}input_b.txt"^^xsd:string ;
+            rdf:_3 "--output"^^xsd:string ;
+            rdf:_4 "{{resolve:system:modelpath}}intermediate_b.txt"^^xsd:string ;
+            rdf:_5 "--function"^^xsd:string ;
+            rdf:_6 "unique"^^xsd:string ;
+            rdf:_7 "--runtime"^^xsd:string ;
+            rdf:_8 "15"^^xsd:string ] ;
     MMUT:hasEnvironment benchmark:Environment-Environment-for-Simulation-Unique-Input-B ;
     MMUT:image "frittenburger/transformation-simu:dev"^^xsd:string .
 
 benchmark:ContainerProperties-Container-properties-for-Simulation-Unique-to-Output-2 a MMUT:ContainerProperties ;
     rdfs:label "Container properties for Simulation Unique to Output 2"^^xsd:string ;
     MMUT:hasCommandSequence [ a rdf:Seq ;
-            rdf:_1 "--function"^^xsd:string ;
-            rdf:_2 "unique"^^xsd:string ;
-            rdf:_3 "--runtime"^^xsd:string ;
-            rdf:_4 "45"^^xsd:string ;
-            rdf:_5 "--input"^^xsd:string ;
-            rdf:_6 "{{resolve:system:modelpath}}intermediate_a.txt"^^xsd:string ;
-            rdf:_7 "--output"^^xsd:string ;
-            rdf:_8 "{{resolve:system:modelpath}}output_2.txt"^^xsd:string ] ;
+            rdf:_1 "--input"^^xsd:string ;
+            rdf:_2 "{{resolve:system:modelpath}}intermediate_a.txt"^^xsd:string ;
+            rdf:_3 "--output"^^xsd:string ;
+            rdf:_4 "{{resolve:system:modelpath}}output_2.txt"^^xsd:string ;
+            rdf:_5 "--function"^^xsd:string ;
+            rdf:_6 "unique"^^xsd:string ;
+            rdf:_7 "--runtime"^^xsd:string ;
+            rdf:_8 "45"^^xsd:string ] ;
     MMUT:hasEnvironment benchmark:Environment-Environment-for-Simulation-Unique-to-Output-2 ;
     MMUT:image "frittenburger/transformation-simu:dev"^^xsd:string .
 

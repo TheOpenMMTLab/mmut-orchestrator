@@ -1,5 +1,5 @@
 import time
-from docker import DockerClient
+import docker
 from prefect import task, get_run_logger, runtime
 from prefect.states import Failed
 from .helper import get_shared
@@ -18,7 +18,7 @@ def docker_task(params: str):
     shared_models_folder = get_shared("models", flow_run_name)
 
     # Container starten
-    client = DockerClient()
+    client = docker.from_env()
     container = client.containers.run(
         image=params['image'],
         name=params['name'],
