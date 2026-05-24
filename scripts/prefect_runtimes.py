@@ -125,7 +125,11 @@ class FlowNameResolver:
         return ""
 
 
-def print_flow_runs(rows: list[dict[str, Any]], resolver: FlowNameResolver) -> int:
+def print_flow_runs(
+    rows: list[dict[str, Any]],
+    resolver: FlowNameResolver,
+    include_all: bool = False,
+) -> int:
     print("FLOW RUNS")
     print("-" * 140)
     print(
@@ -144,11 +148,12 @@ def print_flow_runs(rows: list[dict[str, Any]], resolver: FlowNameResolver) -> i
         start_time = row.get("start_time")
         end_time = row.get("end_time")
         duration = runtime_seconds(start_time, end_time)
-        if duration is None:
+        if duration is None and not include_all:
             continue
         start_txt = str(start_time or "")
+        duration_txt = f"{duration:12.2f}" if duration is not None else f"{'-':>12}"
         print(
-            f"{flow_name[:30]:30} {run_name[:35]:35} {state[:12]:12} {duration:12.2f} {start_txt[:25]:25}"
+            f"{flow_name[:30]:30} {run_name[:35]:35} {state[:12]:12} {duration_txt} {start_txt[:25]:25}"
         )
         shown += 1
 
@@ -162,6 +167,7 @@ def print_task_runs_for_selected_run(
     run_name: str,
     rows: list[dict[str, Any]],
     resolver: FlowNameResolver,
+    include_all: bool = False,
 ) -> int:
     print(f"TASK RUNS FOR FLOW RUN: {run_name}")
     print("-" * 150)
@@ -185,11 +191,12 @@ def print_task_runs_for_selected_run(
         start_time = row.get("start_time")
         end_time = row.get("end_time")
         duration = runtime_seconds(start_time, end_time)
-        if duration is None:
+        if duration is None and not include_all:
             continue
         start_txt = str(start_time or "")
+        duration_txt = f"{duration:12.2f}" if duration is not None else f"{'-':>12}"
         print(
-            f"{flow_name[:30]:30} {flow_run_name[:35]:35} {task_name[:35]:35} {state[:12]:12} {duration:12.2f} {start_txt[:25]:25}"
+            f"{flow_name[:30]:30} {flow_run_name[:35]:35} {task_name[:35]:35} {state[:12]:12} {duration_txt} {start_txt[:25]:25}"
         )
         shown += 1
 
@@ -241,6 +248,11 @@ def main() -> int:
         "--run",
         help="Flow run name. If set, show task runs for the selected flow run name.",
     )
+    parser.add_argument(
+        "--all",
+        action="store_true",
+        help="Show all runs including entries without start_time.",
+    )
     args = parser.parse_args()
 
     api_url = os.getenv("PREFECT_API_URL", "http://127.0.0.1:4200/api").rstrip("/")
@@ -250,7 +262,18 @@ def main() -> int:
         flow_runs = get_flow_runs(api_url)
 
         if not args.run:
-            print_flow_runs(flow_runs, resolver)
+            print_flow_runs(flow_runs, resolver, include_all=args.all)
+            if args.all:
+                flow_run_ids = [
+                    str(r.get("id", "")) for r in flow_runs if str(r.get("id", ""))
+                ]
+                task_runs = get_task_runs_for_flow_run_ids(api_url, flow_run_ids)
+                print_task_runs_for_selected_run(
+                    "ALL FLOW RUNS",
+                    task_runs,
+                    resolver,
+                    include_all=True,
+                )
             return 0
 
         selected = [r for r in flow_runs if str(r.get("name", "")) == args.run]
@@ -260,7 +283,7 @@ def main() -> int:
 
         flow_run_ids = [str(r.get("id", "")) for r in selected if str(r.get("id", ""))]
         task_runs = get_task_runs_for_flow_run_ids(api_url, flow_run_ids)
-        print_task_runs_for_selected_run(args.run, task_runs, resolver)
+        print_task_runs_for_selected_run(args.run, task_runs, resolver, include_all=args.all)
     except error.HTTPError as exc:
         details = ""
         try:
