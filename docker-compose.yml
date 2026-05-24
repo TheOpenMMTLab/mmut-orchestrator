@@ -2,10 +2,10 @@ services:
   orchestrator:
     build:
       context: .
-      dockerfile: docker/Dockerfile
+      dockerfile: Dockerfile
     container_name: mmut-orchestrator
-    image: frittenburger/mmut-orchestrator:docker-test3
-    command: ["/usr/local/bin/start-services.sh"]
+    image: frittenburger/mmut-orchestrator:docker-test4
+    command: ["/app/scripts/start-services.sh"]
     ports:
       - "4200:4200"
       - "8002:8002"
