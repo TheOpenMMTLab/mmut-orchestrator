@@ -4,8 +4,8 @@ from rdflib import Graph, RDFS
 from obse.sparql_queries import SparQLWrapper
 from py_mmut_rdf import MMUT
 import networkx as nx
-import yaml
 import logging
+from .helper import get_secrets_from_file
 
 logger = logging.getLogger(__name__)
 
@@ -22,10 +22,8 @@ class Process:
 
 def get_secrets(domain_key, value_key):
     """Retrieve secrets from a secure store."""
-    # This is a placeholder function. Replace with actual secret retrieval logic.
-    with open("config/secrets.yaml", "r") as f:
-        secrets = yaml.safe_load(f)
-        return secrets.get(domain_key, {}).get(value_key, None)
+    secrets = get_secrets_from_file()
+    return secrets.get(domain_key, {}).get(value_key, None)
 
 
 def resolve(value):

@@ -16,6 +16,16 @@ def _mkdir(path):
         pass
 
 
+def get_secrets_from_file():
+    """Retrieve secrets from a secure store."""
+    # This is a placeholder function. Replace with actual secret retrieval logic.
+    util_dir = os.path.dirname(os.path.abspath(__file__))
+    config_path = os.path.abspath(os.path.join(util_dir, '../config'))
+    with open(os.path.join(config_path, 'secrets.yaml'), 'r') as f:
+        secrets = yaml.safe_load(f)
+    return secrets
+
+
 def get_shared(key: str, flow_run_name: str):
     """Get a shared configuration value."""
     util_dir = os.path.dirname(os.path.abspath(__file__))
