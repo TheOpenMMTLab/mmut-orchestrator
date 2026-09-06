@@ -4,7 +4,7 @@ services:
       context: .
       dockerfile: Dockerfile
     container_name: mmut-orchestrator
-    image: frittenburger/mmut-orchestrator:docker-test5
+    image: frittenburger/mmut-orchestrator:docker-test6
     command: ["/app/scripts/start-services.sh"]
     ports:
       - "4200:4200"
