@@ -56,7 +56,7 @@ def read_info_json(mmut_id: str) -> dict:
     return info
 
 
-def trigger_process(mmut_id : str):
+def trigger_process(mmut_id: str):
 
     # Validate UUID format
     if not is_valid_uuid(mmut_id):
@@ -72,7 +72,7 @@ def trigger_process(mmut_id : str):
     if 'name' in info:
         flow_name = info['name']
 
-    processes: List[Process] = get_processes(mmut_path)
+    processes: List[Process] = get_processes(mmut_path, mmut_id)
 
     # Start the flow in a background thread
     thread = threading.Thread(target=run_docker_flow_sync, args=(processes, flow_name))

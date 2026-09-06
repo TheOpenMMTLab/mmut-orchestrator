@@ -8,7 +8,7 @@ from .process_pipeline_builder import ProcessPipelineBuilder
 logger = logging.getLogger(__name__)
 
 
-def get_processes(mmut_path: str) -> ProcessPipelineBuilder:
+def get_processes(mmut_path: str, mmut_id: str) -> ProcessPipelineBuilder:
 
     # RDF-Graph erzeugen
     g = Graph()
@@ -26,4 +26,4 @@ def get_processes(mmut_path: str) -> ProcessPipelineBuilder:
             ttl_file = os.path.join(mmut_path, file)
             g.parse(ttl_file, format="turtle")
 
-    return ProcessPipelineBuilder(g).get_processes()
+    return ProcessPipelineBuilder(g).get_processes(mmut_id)

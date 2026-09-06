@@ -26,7 +26,7 @@ def get_secrets(domain_key, value_key):
     return secrets.get(domain_key, {}).get(value_key, None)
 
 
-def resolve(value):
+def resolve(value, mmut_id):
     """Resolve a value, e.g., by removing prefixes or converting to string."""
 
     pattern = r"{{resolve:(.*)}}"
@@ -40,7 +40,7 @@ def resolve(value):
             if len(resolve_instruction) == 2 and resolve_instruction[1] == "modelpath":
                 return "/share/models/"
             if len(resolve_instruction) == 2 and resolve_instruction[1] == "mmutpath":
-                return "/mmut/"
+                return f"/mmut/{mmut_id}"
         raise ValueError(f"Unknown resolve instruction: {match.group(1)}")
 
     return re.sub(pattern, ersetze_match, value)
@@ -67,7 +67,7 @@ class ProcessPipelineBuilder:
             for input_model in self.sparql_wrapper.get_in_references(transformation, MMUT.isInputModelOf):
                 self.G.add_edge(input_model, transformation)
 
-    def get_processes(self) -> List[Process]:
+    def get_processes(self, mmut_id) -> List[Process]:
         errors = []
         processes = []
         # Topologische Sortierung der Prozesse (Reihenfolge der Abarbeitung)
@@ -99,13 +99,13 @@ class ProcessPipelineBuilder:
             p_command_sequence = self.sparql_wrapper.get_single_out_reference(p_container_property, MMUT.hasCommandSequence)
             command = []
             for lit in self.sparql_wrapper.get_sequence(p_command_sequence):
-                command.append(resolve(str(lit)))
+                command.append(resolve(str(lit), mmut_id))
             p_environment = self.sparql_wrapper.get_single_out_reference(p_container_property, MMUT.hasEnvironment)
             env = {}
             for p_key_value in self.sparql_wrapper.get_out_references(p_environment, MMUT.hasKeyValuePair):
                 key = self.sparql_wrapper.get_single_object_property(p_key_value, MMUT.key)
                 value = self.sparql_wrapper.get_single_object_property(p_key_value, MMUT.value)
-                env[key] = resolve(value)
+                env[key] = resolve(value, mmut_id)
 
             process_id = str(step)
             process_name = self.sparql_wrapper.get_single_object_property(p_task_definitions[0], RDFS.label)

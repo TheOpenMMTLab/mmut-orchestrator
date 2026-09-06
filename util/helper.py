@@ -26,12 +26,18 @@ def get_secrets_from_file():
     return secrets
 
 
-def get_shared(key: str, flow_run_name: str):
-    """Get a shared configuration value."""
+def _get_config():
+    """Retrieve the shared configuration."""
     util_dir = os.path.dirname(os.path.abspath(__file__))
     config_path = os.path.abspath(os.path.join(util_dir, '../config'))
     with open(os.path.join(config_path, 'shared.yaml'), 'r') as file:
         config = yaml.safe_load(file)
+    return config
+
+
+def get_shared(key: str, flow_run_name: str):
+    """Get a shared configuration value."""
+    config = _get_config()
 
     root_path = config['root_path']
     local_path = config['local_path']
@@ -52,12 +58,9 @@ def get_shared(key: str, flow_run_name: str):
 
     return os.path.join(root_path, local_path, run_dir_name, key)
 
+
 def get_mmut():
     """Get the MMUT shared folder path."""
-    util_dir = os.path.dirname(os.path.abspath(__file__))
-    config_path = os.path.abspath(os.path.join(util_dir, '../config'))
-    with open(os.path.join(config_path, 'shared.yaml'), 'r') as file:
-        config = yaml.safe_load(file)
-
+    config = _get_config()
     root_path = config['root_path']
     return os.path.join(root_path, 'mmut')
