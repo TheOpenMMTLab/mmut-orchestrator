@@ -39,6 +39,8 @@ def resolve(value):
         if resolve_instruction[0] == "system":
             if len(resolve_instruction) == 2 and resolve_instruction[1] == "modelpath":
                 return "/share/models/"
+            if len(resolve_instruction) == 2 and resolve_instruction[1] == "mmutpath":
+                return "/mmut/"
         raise ValueError(f"Unknown resolve instruction: {match.group(1)}")
 
     return re.sub(pattern, ersetze_match, value)

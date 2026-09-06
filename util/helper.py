@@ -51,3 +51,13 @@ def get_shared(key: str, flow_run_name: str):
             break
 
     return os.path.join(root_path, local_path, run_dir_name, key)
+
+def get_mmut():
+    """Get the MMUT shared folder path."""
+    util_dir = os.path.dirname(os.path.abspath(__file__))
+    config_path = os.path.abspath(os.path.join(util_dir, '../config'))
+    with open(os.path.join(config_path, 'shared.yaml'), 'r') as file:
+        config = yaml.safe_load(file)
+
+    root_path = config['root_path']
+    return os.path.join(root_path, 'mmut')

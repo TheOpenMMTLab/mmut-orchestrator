@@ -2,7 +2,7 @@ import time
 import docker
 from prefect import task, get_run_logger, runtime
 from prefect.states import Failed
-from .helper import get_shared
+from .helper import get_shared, get_mmut
 
 
 @task
@@ -16,6 +16,7 @@ def docker_task(params: str):
 
     # Shared folder (e.g. models)
     shared_models_folder = get_shared("models", flow_run_name)
+    mmut_folder = get_mmut()
 
     # Container starten
     client = docker.from_env()
@@ -29,8 +30,12 @@ def docker_task(params: str):
         volumes={
             shared_models_folder: {
                 'bind': '/share/models',
-                'mode': 'rw'  # oder 'ro' für read-only
-            }
+                'mode': 'rw'  # read and write
+            },
+            mmut_folder: {
+                'bind': '/mmut',
+                'mode': 'ro'  # read-only
+            },
         },
         environment=params['env']
     )
